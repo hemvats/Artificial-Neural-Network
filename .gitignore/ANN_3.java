@@ -27,38 +27,7 @@ public class ANN_3
 		Double [] arr;
 		double acc;
 
-		/*		
-		for (i=0;i<Training_Data.size();i++)
-		{
-			arr=Training_Data.get(i);
-			for (j=0;j<arr.length;j++)
-				System.out.print(arr[j]+"  ");
-			System.out.println();
-		}
-		*/
-
 		Validation_Data = Data_Fetcher1(Validation_Loc);
-
-		/*
-		//int i,j,k,n;
-		//Double [] arr;
-		System.out.println(); System.out.println();
-		System.out.println(); System.out.println();
-		for (i=0;i<Validation_Data.size();i++)
-		{
-			arr=Validation_Data.get(i);
-			for (j=0;j<arr.length;j++)
-				System.out.print(arr[j]+"  ");
-			System.out.println();
-		}		
-		for (i=0;i<Training_Data.size();i++)
-		{
-			arr=Training_Data.get(i);
-			for (j=0;j<arr.length;j++)
-				System.out.print(arr[j]+"  ");
-			System.out.println();
-		}
-		*/
 
 		Test_Data = Data_Fetcher1(Test_Loc);
 		
@@ -184,37 +153,9 @@ public class ANN_3
 			System.out.println();
 		}
 
-
-		/*
-		for (i=0;i<64;i++)
-		{
-			for (j=0;j<m;j++)
-			{
-				//randomValue = -1 + (2) * r.nextDouble();
-				System.out.print (arrw1[i][j]+"   ");//=randomValue;
-			}
-			System.out.println();
-		}
-		for (i=0;i<m;i++)
-		{
-			for (j=0;j<10;j++)
-			{
-				//randomValue = -1 + (2) * r.nextDouble();
-				System.out.print (arrw2[i][j]+"   ");//=randomValue;
-			}
-			System.out.println();
-		}
-		*/
-
 		Box b;
 		
 		b = get_verdict (arrw1 , arrw2, Training_Data.get(0), al2, al3, zl2, zl3, m);
-		
-		/*
-		System.out.println();
-		System.out.println(b.output);
-		System.out.println(b.error);
-		*/
 
 		double a1,a2;
 		Double [] arr;
@@ -243,10 +184,8 @@ public class ANN_3
 				int intgr = (int) dbl;
 				Integer val = Integer.valueOf(intgr);
 
-				//operror[arr[arr.length-1]]+=b.error;
 				operror[val]+=b.error;
 
-				//add the gradients here
 				for (p=0;p<grads1.length;p++)
 				{
 					for (k=0;k<grads1[0].length;k++)
@@ -263,8 +202,6 @@ public class ANN_3
 			a1 = get_accuracy(arrw1, arrw2, Validation_Data, al2, al3, zl2, zl3, m);
 			a2 = get_accuracy(arrwt1, arrwt2, Validation_Data, al2, al3, zl2, zl3, m);
 			
-
-			////////////////////////////////////
 			
 			if(a2>=a1 || (a2+.05)>=a1)
 			{
@@ -272,9 +209,6 @@ public class ANN_3
 			}
 			else
 				break;
-			
-			//update_weights(arrw1, arrw2, arrwt1, arrwt2);
-			////////////////////////////////////
 
 
 
@@ -290,13 +224,6 @@ public class ANN_3
 	{
 		
 		int i,j,k,n;
-
-		/*
-		System.out.println(arrw1.length);
-		System.out.println(arrw1[0].length);
-		for (i=0;i<data_x.length;i++)
-			System.out.print(data_x[i]+"   ");
-		*/
 
 		Box b; b = new Box(m);
 
@@ -341,38 +268,18 @@ public class ANN_3
 		int intgr = (int) dbl;
 		Integer val = Integer.valueOf(intgr);
 
-		//b.error = -1*Math.log(zl3[data_x[data_x.length-1]]);
 		
 		//b.error = -1*Math.log(zl3[val]);
 		b.error = (1-zl3[val]);
 		//b.error = (1-zl3[val])*zl3[val]; 
 
-		//Updating gradients
-		/*for (j=0;j<b.grad2.length;j++)
-		{
-			//for (k=0;k<grad2[0].length;k++)
-			//{
-				//b.grad2[j][b.output] = b.error * zl2[j] * diff_sigmoid(al3[b.output]);
-				b.grad2[j][b.output] = b.error * zl2[j] * diff_sigmoid(al3[val]);
-			//}
-		}
-		for (i=0;i<b.grad1.length;i++)
-		{
-			for (j=0;j<b.grad1[0].length;j++)
-			{
-				//b.grad1[i][j] = data_x[i] * b.error * arrw2[j][b.output] * diff_sigmoid(al2[j]);
-				b.grad1[i][j] = data_x[i] * b.error * arrw2[j][val] * diff_sigmoid(al2[j]);
-			}
-		}*/
 
 		//Updating gradients 2.0
 		for (i=0;i<b.ev.length;i++)
 		{
 			if(i!=val)
 			{
-				//b.ev[i] = -1 * Math.log(1-zl3[i]);
 				b.ev[i] = (0-zl3[val]);
-				//b.ev[i] = (0-zl3[val])*zl3[val];
 			}
 			else if(i==val)
 			{
@@ -438,10 +345,6 @@ public class ANN_3
 			int intgr = (int) dbl;
 			Integer val = Integer.valueOf(intgr);
 
-			/*if(b.output == arr[arr.length-1])
-				pos++;
-			else 
-				neg++;*/
 			if(b.output == val) pos=pos+1;
 		}
 		return (pos/(T_Data.size()));
